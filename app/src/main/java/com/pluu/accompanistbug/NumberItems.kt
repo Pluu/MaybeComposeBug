@@ -1,14 +1,14 @@
 package com.pluu.accompanistbug
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import dev.chrisbanes.accompanist.glide.GlideImage
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.glide.rememberGlidePainter
 
 private const val NumberItems = 60
 
@@ -18,22 +18,17 @@ private const val NumberItems = 60
 )
 @Composable
 fun Sample() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(R.string.app_name))
-                }
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(NumberItems) { index ->
+            val painter = rememberGlidePainter(
+                request = randomSampleImageUrl(index),
+                fadeIn = true
             )
-        }
-    ) {
-        LazyVerticalGrid(cells = GridCells.Fixed(2)) {
-            items(NumberItems) { index ->
-                GlideImage(
-                    data = randomSampleImageUrl(index),
-                    contentDescription = null
-                )
-            }
+            Image(
+                modifier = Modifier.size(600.dp),
+                painter = painter,
+                contentDescription = null
+            )
         }
     }
 }
