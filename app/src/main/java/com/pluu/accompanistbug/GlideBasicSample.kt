@@ -1,44 +1,49 @@
 package com.pluu.accompanistbug
 
 import android.os.Bundle
-import android.view.View
-import android.widget.FrameLayout
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.remember
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.fragment.app.Fragment
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.commit
+import com.google.accompanist.glide.rememberGlidePainter
 
 class GlideBasicSample : FragmentActivity() {
-    private val containerViewId by lazy {
-        View.generateViewId()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             // Not working, first vsync
             AccompanistSampleTheme {
-                val contentView = remember {
-                    FrameLayout(this).apply {
-                        id = containerViewId
-                        replaceMainContainer(SampleFragment.newInstance())
-                    }
-                }
-
-                AndroidView({ contentView })
+                Sample()
             }
-
-            // Working
-//            Sample()
         }
     }
+}
 
-    private fun replaceMainContainer(fragment: Fragment) {
-        supportFragmentManager.commit {
-            replace(containerViewId, fragment)
+private const val NumberItems = 60
+
+@OptIn(ExperimentalStdlibApi::class)
+@Composable
+fun Sample() {
+    LazyColumn {
+        items(NumberItems) { index ->
+            val painter = rememberGlidePainter(
+                request = randomSampleImageUrl(index),
+                fadeIn = true
+            )
+            Row(Modifier.padding(16.dp)) {
+                Image(
+                    modifier = Modifier.size(600.dp),
+                    painter = painter,
+                    contentDescription = null
+                )
+            }
         }
     }
 }
