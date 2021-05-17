@@ -1,6 +1,7 @@
 package com.pluu.accompanistbug
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
@@ -10,15 +11,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.FragmentActivity
 import com.google.accompanist.glide.rememberGlidePainter
 
-class GlideBasicSample : FragmentActivity() {
+class GlideBasicSample : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-            // Not working, first vsync
             AccompanistSampleTheme {
                 Sample()
             }
@@ -30,7 +28,7 @@ private const val NumberItems = 60
 
 @OptIn(ExperimentalStdlibApi::class)
 @Composable
-fun Sample() {
+private fun Sample() {
     LazyColumn {
         items(NumberItems) { index ->
             val painter = rememberGlidePainter(
